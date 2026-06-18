@@ -1,0 +1,41 @@
+name: dbt CD - Deploy on Merge
+run-name: Merge by ${{ github.actor }}
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  dbt-deploy:
+    name: "Deploy Production dbt Project"
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+      SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      - name: Verify connection
+        run: snow connection test -x
+
+      - name: Deploy production dbt project (new version)
+        run: |
+          snow dbt deploy YEXT_HOL_TRANSFORMS \
+            --source . \
+            --default-target default \
+            --force -x
+
+      - name: List deployed projects
+        run: snow dbt list -x

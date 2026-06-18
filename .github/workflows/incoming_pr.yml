@@ -1,0 +1,43 @@
+name: dbt CI - Test on PR
+run-name: PR opened by ${{ github.actor }}
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  dbt-test:
+    name: "Build & Test dbt Project"
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
+      SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
+        with:
+          use-oidc: true
+
+      - name: Verify connection
+        run: snow connection test -x
+
+      - name: Deploy tester dbt project
+        run: |
+          snow dbt deploy tester_yext_hol_transforms \
+            --source . \
+            --force -x
+
+      - name: Build & test all models (fails PR on error)
+        run: |
+          snow dbt execute -x tester_yext_hol_transforms \
+            build --target default
