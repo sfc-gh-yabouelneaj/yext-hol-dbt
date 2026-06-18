@@ -1,0 +1,10 @@
+yext_hol:
+  target: default
+  outputs:
+    default:
+      type: snowflake
+      account: SFSENORTHAMERICA-YABOUELNEAJ
+      database: YEXT_HOL
+      schema: ANALYTICS
+      warehouse: COMPUTE_WH
+      role: ACCOUNTADMIN

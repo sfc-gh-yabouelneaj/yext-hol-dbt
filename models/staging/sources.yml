@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: YEXT_HOL
+    schema: RAW_DATA
+    tables:
+      - name: foursquare_places
+        description: Raw Foursquare Places data with location, contact, and category information
