@@ -7,26 +7,26 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   dbt-test:
     name: "Build & Test dbt Project"
     runs-on: ubuntu-latest
-    environment: prod
     env:
       SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
       SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PAT }}
       SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE }}
       SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA }}
+      SNOWFLAKE_WAREHOUSE: ${{ vars.SNOWFLAKE_WAREHOUSE }}
+      SNOWFLAKE_ROLE: ${{ vars.SNOWFLAKE_ROLE }}
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
-        with:
-          use-oidc: true
 
       - name: Verify connection
         run: snow connection test -x
