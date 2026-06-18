@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: dim_locations
+    description: >
+      Unified location dimension combining Foursquare places, review metrics, and listing health
+      into a single golden record per location with an overall health score (0-100).
+    columns:
+      - name: location_id
+        description: Primary key (Foursquare place ID)
+        tests:
+          - unique
+          - not_null
+      - name: overall_health_score
+        description: Composite health score (0-100) based on listing sync, ratings, response rate, and contact completeness
+
+  - name: fct_reviews
+    description: One row per customer review with location context for analysis
+    columns:
+      - name: review_id
+        tests:
+          - unique
+          - not_null
+      - name: rating
+        tests:
+          - not_null
+
+  - name: fct_listing_health
+    description: One row per listing with health flags for monitoring sync issues
+    columns:
+      - name: listing_id
+        tests:
+          - unique
+          - not_null
+
+  - name: agg_brand_performance
+    description: Brand-level KPIs aggregated across all locations (brands with 3+ locations)
+    columns:
+      - name: brand
+        tests:
+          - unique
+          - not_null
+
+  - name: agg_state_summary
+    description: Geographic rollup of location health, reviews, and listing metrics by US state
+    columns:
+      - name: state
+        tests:
+          - unique
+          - not_null

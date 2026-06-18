@@ -1,0 +1,9 @@
+publisher_id,publisher_name,publisher_type,priority
+1,Google,search_engine,1
+2,Yelp,review_site,2
+3,Facebook,social_media,3
+4,Apple Maps,maps,4
+5,TripAdvisor,review_site,5
+6,Bing Places,search_engine,6
+7,Yahoo Local,search_engine,7
+8,Foursquare,maps,8

@@ -1,0 +1,26 @@
+category_id,category_label,vertical
+13065,Restaurant,Food & Beverage
+13003,Coffee Shop,Food & Beverage
+13145,Fast Food Restaurant,Food & Beverage
+13032,Mexican Restaurant,Food & Beverage
+13034,Bakery,Food & Beverage
+13028,Burger Joint,Food & Beverage
+17069,Department Store,Retail
+17070,Big Box Store,Retail
+17114,Pharmacy,Retail
+17018,Convenience Store,Retail
+17035,Home Improvement,Retail
+18021,Gym,Health & Fitness
+18023,Fitness Center,Health & Fitness
+15014,Medical Center,Healthcare
+15000,Healthcare,Healthcare
+11049,Salon,Personal Services
+11000,Spa,Personal Services
+12065,Auto Shop,Automotive
+12000,Service Center,Automotive
+19014,Hotel,Hospitality
+19000,Lodging,Hospitality
+11051,Bank,Financial Services
+11000,Financial Services,Financial Services
+10027,Movie Theater,Entertainment
+10000,Entertainment,Entertainment

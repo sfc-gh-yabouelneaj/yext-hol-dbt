@@ -4,6 +4,47 @@ sources:
   - name: raw_data
     database: YEXT_HOL
     schema: RAW_DATA
+    description: Raw ingested data from Foursquare, Yext, Google, and review platforms
     tables:
       - name: foursquare_places
-        description: Raw Foursquare Places data with location, contact, and category information
+        description: Foursquare Places data with location, contact, and category info
+        columns:
+          - name: fsq_place_id
+            description: Unique Foursquare place identifier
+            tests:
+              - unique
+              - not_null
+
+      - name: yext_listings
+        description: Yext-managed business listings across multiple publishers
+        columns:
+          - name: listing_id
+            description: Unique listing identifier
+            tests:
+              - unique
+              - not_null
+          - name: publisher
+            tests:
+              - accepted_values:
+                  values: ['Google', 'Yelp', 'Facebook', 'Apple Maps']
+
+      - name: customer_reviews
+        description: Customer reviews from multiple platforms
+        columns:
+          - name: review_id
+            description: Unique review identifier
+            tests:
+              - unique
+              - not_null
+          - name: rating
+            tests:
+              - not_null
+
+      - name: google_business_profiles
+        description: Google Business Profile data for location matching
+        columns:
+          - name: gbp_id
+            description: Unique Google Business Profile identifier
+            tests:
+              - unique
+              - not_null
